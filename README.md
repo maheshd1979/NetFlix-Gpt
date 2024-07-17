@@ -21,6 +21,17 @@ Tailwind CSS Extension Pack
  ES7+ React/Redux/React-Native snippets extension ( install this extension to use short code rafce  to create react functional component)
 
 
+# Till the point what is complete
+-  Create React App
+- Configured TailwindCSS
+- Header
+- Router
+- Login Form
+- sign Up Form
+- Form Validation
+- UseRef Hook
+
+
 # Features of Our Application
  -Login/Sign Up
     - Sign In/Sign up Forms

@@ -1,11 +1,42 @@
 import React, { useState } from 'react';
 import Header from './Header';
+import { validateForm } from '../utils/validate';
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+  const [formData, setFormData] = useState({
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [errors, setErrors] = useState({});
 
   const toggleSignInform = () => {
     setIsSignInForm(!isSignInForm);
+    setErrors({});
+    setFormData({
+      email: '',
+      username: '',
+      password: '',
+      confirmPassword: ''
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    const validationErrors = validateForm(formData, isSignInForm);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      // Submit the form
+      console.log('Form submitted successfully:', formData);
+    }
   };
 
   return (
@@ -18,36 +49,56 @@ const Login = () => {
           alt="Background"
         />
       </div>
-      <div className="absolute z-20 flex flex-col items-center justify-center p-6 pt-2 bg-gray-800 border-2 border-black rounded-lg h-2/3 w-96 bg-opacity-70">
-        <h2 className="text-4xl font-extrabold text-white mb-6 text-left w-full text-shadow-lg">
+      <div className="absolute z-20 flex flex-col items-center justify-center p-6 pt-2 bg-gray-800 border-2 border-black rounded-lg h-[600px] w-96 bg-opacity-70">
+        <h2 className="text-4xl font-extrabold text-white mb-10 text-left w-full text-shadow-lg">
           {isSignInForm ? 'Sign In' : 'Sign Up'}
         </h2>
         <form className="flex flex-col items-center mb-3 justify-center w-full">
           <input
             type="text"
+            name="email"
             placeholder="Email"
+            value={formData.email}
+            onChange={handleInputChange}
             className="w-80 p-3 m-2 bg-white rounded"
           />
+          {errors.email && <span className="text-red-500">{errors.email}</span>}
           {!isSignInForm && (
-            <input
-              type="text"
-              placeholder="Username"
-              className="w-80 p-3 m-2 bg-white rounded"
-            />
+            <>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleInputChange}
+                className="w-80 p-3 m-2 bg-white rounded"
+              />
+              {errors.username && <span className="text-red-500">{errors.username}</span>}
+            </>
           )}
           <input
             type="password"
+            name="password"
             placeholder="Password"
+            value={formData.password}
+            onChange={handleInputChange}
             className="w-80 p-3 m-2 bg-white rounded"
           />
+          {errors.password && <span className="text-red-500">{errors.password}</span>}
           {!isSignInForm && (
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              className="w-80 p-3 m-2 bg-white rounded"
-            />
+            <>
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className="w-80 p-3 m-2 bg-white rounded"
+              />
+              {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword}</span>}
+            </>
           )}
-          <button className='w-80 px-0 py-1 m-2 text-white bg-red-500 rounded'>
+          <button className='w-80 px-0 py-1 m-2 text-white bg-red-500 rounded' onClick={handleButtonClick}>
             {isSignInForm ? 'Sign in' : 'Sign up'}
           </button>
           {isSignInForm && (
